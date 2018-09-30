@@ -7,13 +7,18 @@ class MainPage extends Component {
   state = {
     sideDrawerOpen: false,
     venues: [],
-    filterQuery: ''
+    filterQuery: 'all',
+    markers: []
   }
 
   addVenues = (venues) => {
     this.setState({
       venues: venues
     })
+  }
+
+  addMarker = (marker) => {
+    this.state.markers.push(marker)
   }
 
   venueTypeFilter = (input) => {
@@ -30,21 +35,25 @@ class MainPage extends Component {
     })
   }
 
+  handleClick = (id) => {
+    const foundMarker = this.state.markers.find(marker => marker.name === id)
+    window.google.maps.event.trigger('click', foundMarker)
+  }
+
   render() {
     let sideDrawer
 
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues} filter={this.venueTypeFilter}/>
+      sideDrawer = <SideDrawer venues={this.state.venues} filter={this.venueTypeFilter} markers={this.state.markers}/>
     }
-
-    {console.log(this.state.venues)}
 
     return (<div style={{
         height: '100%'
       }}>
-      <Header click={this.drawerToggleButtonHandler}/> {sideDrawer}
+      <Header click={this.drawerToggleButtonHandler}/>
+      {sideDrawer}
       <main>
-        <Map addVenues={this.addVenues} venues={this.state.venues} filterQuery={this.state.filterQuery}/>
+        <Map addVenues={this.addVenues} venues={this.state.venues} filterQuery={this.state.filterQuery} addMarker={this.addMarker}/>
       </main>
     </div>)
   }

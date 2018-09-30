@@ -22,15 +22,13 @@ class Map extends Component {
       v: "20180922"
     }
 
-    console.log(venueRequest + new URLSearchParams(parameters))
-
     const endPoint = venueRequest + new URLSearchParams(parameters)
 
     fetch(endPoint).then(response => response.json()).then(parsedJSON => {
       this.props.addVenues(parsedJSON.response.groups[0].items)
       this.setState({
         venues: parsedJSON.response.groups[0].items
-      }, this.loadMap("https://maps.googleapis.com/maps/api/js?key=AIzaSyAVOPoUev3-s_UupkvLyhGPTd5ON5X_mH8&v=3&callback=initMap"))
+      },  this.loadMap("https://maps.googleapis.com/maps/api/js?key=AIzaSyAVOPoUev3-s_UupkvLyhGPTd5ON5X_mH8&v=3&callback=initMap"))
 
     }).catch(error => console.log('Foursquare had an error! ', error))
   }
@@ -46,8 +44,8 @@ class Map extends Component {
 
     var infoWin = new window.google.maps.InfoWindow()
 
-    this.props.venues.forEach(markedVenue => {
-      var contentString = `<div id="content">
+    this.props.venues.map(markedVenue => {
+      var contentString = `<div id="infoContent">
       <div id="siteNotice">
       </div>
       <h1 id="firstHeading" class="firstHeading"> ${markedVenue.venue.name} </h1>
@@ -65,6 +63,7 @@ class Map extends Component {
           lng: markedVenue.venue.location.lng
         },
         title: markedVenue.venue.name,
+        id: markedVenue.venue.id,
         map: map
       })
 
@@ -72,6 +71,8 @@ class Map extends Component {
         infoWin.setContent(contentString)
         infoWin.open(map, marker)
       })
+
+      this.props.addMarker(marker)
     })
   }
 

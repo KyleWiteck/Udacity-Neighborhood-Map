@@ -7,7 +7,7 @@ class Header extends Component {
   render() {
     return(
       <header>
-        <nav>
+        <nav id="main-nav">
           <div id='hamburger'>
             <DrawerToggleButton click={this.props.click}/>
           </div>

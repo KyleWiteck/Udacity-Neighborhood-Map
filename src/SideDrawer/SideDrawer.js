@@ -5,7 +5,9 @@ import './SideDrawer.css'
 class SideDrawer extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {
+      value: '',
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,8 +22,14 @@ class SideDrawer extends Component {
     event.preventDefault();
   }
 
-  render() {
 
+  handleClick = (id) => {
+    let foundMarker = this.props.markers.find(marker => marker.id === id)
+    window.google.maps.event.trigger(foundMarker, 'click')
+  }
+
+
+  render() {
     return (
       <div id='side-drawer'>
         <form onSubmit={this.handleSubmit}>
@@ -34,14 +42,15 @@ class SideDrawer extends Component {
           <nav id='drawer-nav'>
             <ul>
               {
-                this.props.venues.map(function(venue, index) {
-                  return <li  key={index}>
-                    <a onClick={() => {console.log('hi')}} className="drawer-name">
+                this.props.venues.map((venue, index) => {
+                  return(
+                  <li  key={index}>
+                    <a onClick={() => {this.handleClick(venue.venue.id)}} className="drawer-name">
                       {venue.venue.name}
                     </a>
-                  </li>
+                  </li>)
                 })
-              }1
+              }
             </ul>
           </nav>
         </div>
