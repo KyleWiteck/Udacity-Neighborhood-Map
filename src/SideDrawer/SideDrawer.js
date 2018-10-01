@@ -13,11 +13,11 @@ class SideDrawer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = (event) =>{
     this.setState({value: event.target.value});
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     this.props.filter(this.state.value)
     event.preventDefault();
   }

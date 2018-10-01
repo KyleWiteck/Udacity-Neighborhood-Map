@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
-import MainPage from './MainPage'
+import MainPage from './MainPage/MainPage'
 
 import './Header/Header'
 

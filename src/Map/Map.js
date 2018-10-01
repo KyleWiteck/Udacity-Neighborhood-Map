@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
 
+import '../Map/Map.css'
+
 class Map extends Component {
+  state = {
+    markers: []
+  }
+
 
   componentDidMount() {
     this.getVenues(this.props.filterQuery)
@@ -28,7 +34,7 @@ class Map extends Component {
       this.props.addVenues(parsedJSON.response.groups[0].items)
       this.setState({
         venues: parsedJSON.response.groups[0].items
-      },  this.loadMap("https://maps.googleapis.com/maps/api/js?key=AIzaSyAVOPoUev3-s_UupkvLyhGPTd5ON5X_mH8&v=3&callback=initMap"))
+      }, this.loadInitMap() )
 
     }).catch(error => console.log('Foursquare had an error! ', error))
   }
@@ -67,7 +73,13 @@ class Map extends Component {
         map: map
       })
 
+      var bounds = new window.google.maps.LatLngBounds();
+
+
+      bounds.extend(marker.getPosition());
+
       marker.addListener('click', () => {
+        map.setCenter(marker.getPosition())
         infoWin.setContent(contentString)
         infoWin.open(map, marker)
       })
@@ -80,11 +92,23 @@ class Map extends Component {
     const scriptElement = window.document.createElement('script')
     const firstScript = window.document.getElementsByTagName('script')[0]
 
-    scriptElement.src = src
-    scriptElement.async = true
-    scriptElement.defer = true
-    firstScript.parentNode.insertBefore(scriptElement, firstScript)
-    window.initMap = this.initMap
+    if (typeof google === 'undefined') {
+
+      scriptElement.setAttribute("id", "map-script")
+      scriptElement.src = src
+      scriptElement.async = true
+      scriptElement.defer = true
+      firstScript.parentNode.insertBefore(scriptElement, firstScript)
+      window.initMap = this.initMap
+    }
+  }
+
+  loadInitMap = () => {
+    if (typeof google === 'undefined') {
+      this.loadMap("https://maps.googleapis.com/maps/api/js?key=AIzaSyAVOPoUev3-s_UupkvLyhGPTd5ON5X_mH8&v=3&callback=initMap")
+    } else {
+      this.initMap()
+    }
   }
 
   render() {

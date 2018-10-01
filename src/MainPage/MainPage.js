@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import Header from './Header/Header.js';
-import SideDrawer from './SideDrawer/SideDrawer'
-import Map from './Map/Map'
+import Header from '../Header/Header.js';
+import SideDrawer from '../SideDrawer/SideDrawer'
+import Map from '../Map/Map'
+
+import '../MainPage/MainPage.css';
 
 class MainPage extends Component {
   state = {

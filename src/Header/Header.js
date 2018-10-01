@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton'
 
+import '../Header/Header.css'
 
 class Header extends Component {
   render() {
