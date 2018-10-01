@@ -7,7 +7,6 @@ class Map extends Component {
     markers: []
   }
 
-
   componentDidMount() {
     this.getVenues(this.props.filterQuery)
   }
@@ -34,7 +33,7 @@ class Map extends Component {
       this.props.addVenues(parsedJSON.response.groups[0].items)
       this.setState({
         venues: parsedJSON.response.groups[0].items
-      }, this.loadInitMap() )
+      }, this.loadInitMap())
 
     }).catch(error => console.log('Foursquare had an error! ', error))
   }
@@ -44,11 +43,11 @@ class Map extends Component {
       center: {
         lat: 35.584861,
         lng: -82.557763
-      },
-      zoom: 11.5
+      }
     })
 
     var infoWin = new window.google.maps.InfoWindow()
+    var bounds = new window.google.maps.LatLngBounds();
 
     this.props.venues.map(markedVenue => {
       var contentString = `<div id="infoContent">
@@ -73,10 +72,8 @@ class Map extends Component {
         map: map
       })
 
-      var bounds = new window.google.maps.LatLngBounds();
-
-
-      bounds.extend(marker.getPosition());
+      var loc = new window.google.maps.LatLng(marker.position.lat(), marker.position.lng());
+      bounds.extend(loc)
 
       marker.addListener('click', () => {
         map.setCenter(marker.getPosition())
@@ -86,6 +83,9 @@ class Map extends Component {
 
       this.props.addMarker(marker)
     })
+
+    map.fitBounds(bounds)
+    map.panToBounds(bounds)
   }
 
   loadMap = (src) => {
@@ -112,9 +112,7 @@ class Map extends Component {
   }
 
   render() {
-    return(
-      <div id='map'></div>
-    )
+    return (<div id='map'></div>)
   }
 }
 

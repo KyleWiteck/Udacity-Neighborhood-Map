@@ -9,7 +9,7 @@ class MainPage extends Component {
   state = {
     sideDrawerOpen: false,
     venues: [],
-    filterQuery: 'all',
+    filterQuery: '',
     markers: []
   }
 
