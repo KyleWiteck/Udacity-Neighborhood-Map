@@ -7,16 +7,19 @@ class Map extends Component {
     markers: []
   }
 
+  // Loads all the map information once it is mounted.
   componentDidMount() {
     this.getVenues(this.props.filterQuery)
   }
 
+  // Loads all the map information once it changes or updates.
   componentDidUpdate(prevProps) {
     if (prevProps.filterQuery !== this.props.filterQuery) {
       this.getVenues(this.props.filterQuery)
     }
   }
 
+  // Calls all the info for venues, sets up endpoint and retrieves the information.
   getVenues = (query) => {
     const venueRequest = 'https://api.foursquare.com/v2/venues/explore?'
     const parameters = {
@@ -27,17 +30,20 @@ class Map extends Component {
       v: "20180922"
     }
 
+    // Creates the full URL
     const endPoint = venueRequest + new URLSearchParams(parameters)
 
     fetch(endPoint).then(response => response.json()).then(parsedJSON => {
       this.props.addVenues(parsedJSON.response.groups[0].items)
       this.setState({
         venues: parsedJSON.response.groups[0].items
-      }, this.loadInitMap())
-
+      },
+      // loads and initiates the map.
+      this.loadInitMap())
     }).catch(error => console.log('Foursquare had an error! ', error))
   }
 
+  // Initiates the map, sets up markers, adds info windows, and sets positions.
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {
@@ -49,7 +55,11 @@ class Map extends Component {
     var infoWin = new window.google.maps.InfoWindow()
     var bounds = new window.google.maps.LatLngBounds();
 
+    this.props.clearMarkers()
+
     this.props.venues.forEach(markedVenue => {
+
+      // Creates the content for the infowindow
       var contentString = `<div id="infoContent">
       <div id="siteNotice">
       </div>
@@ -62,6 +72,7 @@ class Map extends Component {
       </div>
       </div>`
 
+      // Creates marker for the venue that is called
       var marker = new window.google.maps.Marker({
         position: {
           lat: markedVenue.venue.location.lat,
@@ -75,6 +86,7 @@ class Map extends Component {
       var loc = new window.google.maps.LatLng(marker.position.lat(), marker.position.lng());
       bounds.extend(loc)
 
+      // Adds event listener to open info window on click.
       marker.addListener('click', () => {
         map.setCenter(marker.getPosition())
         infoWin.setContent(contentString)
@@ -88,22 +100,21 @@ class Map extends Component {
     map.panToBounds(bounds)
   }
 
+  // Loads the map and creates the script file for the map.
   loadMap = (src) => {
     const scriptElement = window.document.createElement('script')
     const firstScript = window.document.getElementsByTagName('script')[0]
 
-    if (typeof google === 'undefined') {
-
-      scriptElement.setAttribute("id", "map-script")
-      scriptElement.src = src
-      scriptElement.async = true
-      scriptElement.defer = true
-      firstScript.parentNode.insertBefore(scriptElement, firstScript)
-      window.initMap = this.initMap
-    }
+    scriptElement.setAttribute("id", "map-script")
+    scriptElement.src = src
+    scriptElement.async = true
+    scriptElement.defer = true
+    firstScript.parentNode.insertBefore(scriptElement, firstScript)
+    window.initMap = this.initMap
   }
 
   loadInitMap = () => {
+    // Checks if the map script tag is there, if it isn't it adds it, if it is, it just re initialises it.
     if (typeof google === 'undefined') {
       this.loadMap("https://maps.googleapis.com/maps/api/js?key=AIzaSyAVOPoUev3-s_UupkvLyhGPTd5ON5X_mH8&v=3&callback=initMap")
     } else {

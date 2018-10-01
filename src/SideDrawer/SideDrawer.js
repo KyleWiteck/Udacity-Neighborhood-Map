@@ -13,16 +13,19 @@ class SideDrawer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  // Sets the value state to the current value that is being typed.
   handleChange = (event) =>{
     this.setState({value: event.target.value});
   }
 
+  // Takes the value from the state and adds it to the filterQuery state on the MainPage.
   handleSubmit = (event) => {
     this.props.filter(this.state.value)
     event.preventDefault();
   }
 
-
+  // If the name is clicked in the drawer,
+  // it will check for an id that matches and clicks the marker that relates to that name.
   handleClick = (id) => {
     let foundMarker = this.props.markers.find(marker => marker.id === id)
     window.google.maps.event.trigger(foundMarker, 'click')
@@ -30,11 +33,12 @@ class SideDrawer extends Component {
 
 
   render() {
+    {console.log(this.props.markers)}
     return (
       <div id='side-drawer'>
         <form onSubmit={this.handleSubmit}>
           <label>
-            <input type="text" name="venue-type" value={this.state.value} onChange={this.handleChange}/>
+            <input type="text" name="venue-type" onChange={this.handleChange}/>
           </label>
           <input type="submit" value="Filter" />
         </form>

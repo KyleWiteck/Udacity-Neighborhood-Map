@@ -25,6 +25,12 @@ class MainPage extends Component {
     this.state.markers.push(marker)
   }
 
+  clearMarkers = () => {
+    this.setState({
+      markers: []
+    })
+  }
+
   // Adds the ability to change state of filterQuery via props.
   // Works with input filter in side drawer.
   venueTypeFilter = (input) => {
@@ -63,7 +69,7 @@ class MainPage extends Component {
       <Header click={this.drawerToggleButtonHandler}/>
       {sideDrawer}
       <main>
-        <Map addVenues={this.addVenues} venues={this.state.venues} filterQuery={this.state.filterQuery} addMarker={this.addMarker}/>
+        <Map addVenues={this.addVenues} venues={this.state.venues} filterQuery={this.state.filterQuery} addMarker={this.addMarker} clearMarkers={this.clearMarkers}/>
       </main>
     </div>)
   }
