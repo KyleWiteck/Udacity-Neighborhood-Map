@@ -49,7 +49,7 @@ class Map extends Component {
     var infoWin = new window.google.maps.InfoWindow()
     var bounds = new window.google.maps.LatLngBounds();
 
-    this.props.venues.map(markedVenue => {
+    this.props.venues.forEach(markedVenue => {
       var contentString = `<div id="infoContent">
       <div id="siteNotice">
       </div>
