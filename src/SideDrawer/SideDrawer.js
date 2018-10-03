@@ -32,15 +32,28 @@ class SideDrawer extends Component {
   }
 
 
+  handleKeyPress = (id, e) => {
+    if(e.which === 13){
+      console.log(id)
+
+    }
+  }
+
+  scrollToTop = () => {
+    window.document.getElementById('drawer-nav').scrollTop = 0; // For Safari
+    window.document.getElementById('drawer-nav').scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
+
+
   render() {
-    {console.log(this.props.markers)}
+
     return (
       <div id='side-drawer'>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} role="search">
           <label>
-            <input type="text" name="venue-type" onChange={this.handleChange}/>
+            <input type="text" name="venue-type" aria-label='Type the catagory you wish to filter of the map.' onChange={this.handleChange}/>
           </label>
-          <input type="submit" value="Filter" />
+          <input type="submit" value="Filter" role="button"/>
         </form>
         <div id='drawer-list'>
           <nav id='drawer-nav'>
@@ -48,13 +61,14 @@ class SideDrawer extends Component {
               {
                 this.props.venues.map((venue, index) => {
                   return(
-                  <li  key={index}>
-                    <a onClick={() => {this.handleClick(venue.venue.id)}} className="drawer-name">
+                  <li role='button' key={index}>
+                    <a className="drawer-name" onClick={() => {this.handleClick(venue.venue.id)}} onKeyPress={() => {this.handleClick(venue.venue.id)}} tabIndex="0">
                       {venue.venue.name}
                     </a>
                   </li>)
                 })
               }
+              <button id='to-top' onClick={this.scrollToTop} tabIndex='0'>Back To Top</button>
             </ul>
           </nav>
         </div>

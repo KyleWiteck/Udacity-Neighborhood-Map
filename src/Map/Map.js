@@ -55,6 +55,7 @@ class Map extends Component {
     var infoWin = new window.google.maps.InfoWindow()
     var bounds = new window.google.maps.LatLngBounds();
 
+    // Sets the markers state on the MainPage to empty
     this.props.clearMarkers()
 
     this.props.venues.forEach(markedVenue => {
@@ -93,6 +94,7 @@ class Map extends Component {
         infoWin.open(map, marker)
       })
 
+      // Adds each marker that is on the page to the markers state array.
       this.props.addMarker(marker)
     })
 
@@ -114,7 +116,9 @@ class Map extends Component {
   }
 
   loadInitMap = () => {
-    // Checks if the map script tag is there, if it isn't it adds it, if it is, it just re initialises it.
+
+    // Checks if the map script tag is there,
+    //if it isn't it adds it, if it is, it just re initializes it.
     if (typeof google === 'undefined') {
       this.loadMap("https://maps.googleapis.com/maps/api/js?key=AIzaSyAVOPoUev3-s_UupkvLyhGPTd5ON5X_mH8&v=3&callback=initMap")
     } else {
@@ -123,7 +127,7 @@ class Map extends Component {
   }
 
   render() {
-    return (<div id='map'></div>)
+    return (<div id='map' role="application" aria-label="Map"></div>)
   }
 }
 

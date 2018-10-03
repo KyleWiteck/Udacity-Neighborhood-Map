@@ -10,6 +10,10 @@
   z-index: 200;
 }
 
+
+
+/* --------------------------- FORM ------------------------------ */
+
 form {
   text-align: center;
 }
@@ -20,13 +24,14 @@ input[type="text"] {
   padding-left: 20px;
   font-weight: bold;
   font-family: Verdana;
-  box-shadow: inset 0.5px 0 1px #000;
+  box-shadow: inset 0.5px 0 2px #000;
+  border: 2px solid black;
 }
 
 input[type="submit"] {
   height: 41px;
   width: 24.5%;
-  background-color: rgb(0, 125, 255);
+  background-color: rgba(0, 125, 255, 0.75);
   color: white;
   border: 0;
   margin-top: 1px;
@@ -34,10 +39,31 @@ input[type="submit"] {
   box-shadow: inset 0.5px 0 7px #000;
 }
 
+input[type="text"]:hover,
+input[type="text"]:active,
+input[type="text"]:focus {
+   border: 2px solid rgb(0, 125, 255);
+   box-shadow: inset 0.5px 0 2px rgb(0, 125, 255);
+   height: 42px;
+   font-size: 1.2rem;
+}
+
+input[type="submit"]:focus,
+input[type="submit"]:hover,
+input[type="submit"]:active {
+  background: rgb(0, 125, 255);
+  height: 48px;
+}
+
+
+
+/* ------------------- Navigation List ----------------------- */
+
 #drawer-nav {
   height: 65vh;
   font-size: 1.1rem;
-  background: black;
+  background: rgb(17, 16, 16);
+  -webkit-box-shadow: inset 1px 1px 10px #000;
   overflow-y: scroll;
 
 }
@@ -47,8 +73,11 @@ input[type="submit"] {
   list-style: none;
   padding: 0;
   margin-top: 2rem;
-  margin-left: 27px;
+  margin-left: 1.5rem;
+  margin: 2rem .5rem 0 1.4rem
 }
+
+/* ----------------------Scroll Bar------------------------ */
 
 #drawer-nav::-webkit-scrollbar {
     width: 1em;
@@ -56,14 +85,23 @@ input[type="submit"] {
 
 #drawer-nav::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 5px 40px rgba(34, 34, 34, 0.85);
+    -webkit-box-shadow: inset 1px 2px 6px #000;
+    background: rgb(34, 34, 34);
 }
 
 #drawer-nav::-webkit-scrollbar-thumb {
-  background-color: rgb(0, 125, 255);
-  -webkit-box-shadow: inset 0 2.5px 1px #000;
-  outline: 1px solid slategrey;
+  background-color: rgba(0, 125, 255, 0.75);
+  -webkit-box-shadow: inset -1px -1px 3px #000;
   border-radius: 2px;
 }
+
+#drawer-nav::-webkit-scrollbar-thumb:hover,
+#drawer-nav::-webkit-scrollbar-thumb:active {
+  background-color: rgb(0, 125, 255);
+}
+
+
+/* ------------------------List------------------------ */
 
 #drawer-nav li {
   margin: 1rem 0;
@@ -73,11 +111,34 @@ input[type="submit"] {
 
 #drawer-nav a {
   color: white;
+  text-shadow: 3px 3px rgba(0, 0, 0, 0.96);
   text-decoration: none;
   font-size: 1.1rem;
   cursor: pointer;
 }
 
-#side-drawer a:hover, #side-drawer a:active {
-  color: rgb(0, 163, 255);
+#side-drawer a:hover,
+#side-drawer a:active,
+#side-drawer a:focus {
+  color: rgba(0, 163, 255);
+  outline: none;
+}
+
+#to-top {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  background: transparent;
+  color: rgb(96, 164, 236);
+  border: none;
+  padding-bottom: 10px;
+  margin-top: 4px;
+  margin-left: 60px;
+  text-decoration: underline;
+}
+
+#to-top:hover
+#to-top:active
+#to-top:focus {
+  color: white;
 }
