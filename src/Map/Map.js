@@ -21,6 +21,7 @@ class Map extends Component {
 
 
   // Calls all the info for venues, sets up endpoint and retrieves the information.
+  //This uses Foursquares API's database.
   getVenues = (query) => {
     const venueRequest = 'https://api.foursquare.com/v2/venues/explore?'
     const parameters = {
@@ -45,6 +46,7 @@ class Map extends Component {
   }
 
   // Initiates the map, sets up markers, adds info windows, and sets positions.
+  // This uses Google Maps API
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {
@@ -91,6 +93,10 @@ class Map extends Component {
       // Adds event listener to open info window on click.
       marker.addListener('click', () => {
         map.setCenter(marker.getPosition())
+        marker.setAnimation(window.google.maps.Animation.BOUNCE)
+        setTimeout(() => {
+          marker.setAnimation(null)
+        }, 1000)
         infoWin.setContent(contentString)
         infoWin.open(map, marker)
       })
@@ -108,7 +114,7 @@ class Map extends Component {
 
       var newAlert = document.createElement("div")
       newAlert.setAttribute("role", "alert")
-      newAlert.setAttribute("id", "alert")
+      newAlert.setAttribute("id", "aria-alert")
       var msg = document.createTextNode('Venues have loaded')
       newAlert.appendChild(msg)
       document.body.appendChild(newAlert)

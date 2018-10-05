@@ -9,3 +9,7 @@
 .ariaAlert {
   display: none;
 }
+
+#aria-alert {
+  display: none;
+}
