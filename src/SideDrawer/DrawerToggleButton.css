@@ -10,6 +10,7 @@
   cursor: pointer;
   margin: 20px;
   box-sizing: border-box;
+  outline: none;
 }
 
 .button-line {
@@ -18,8 +19,8 @@
   background: white;
 }
 
-
-.drawer-button:hover,
-.drawer-button:active {
+.drawer-button:hover  .button-line,
+.drawer-button:active .button-line,
+.drawer-button:focus .button-line {
   background: rgb(0, 163, 255);
 }

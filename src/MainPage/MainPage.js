@@ -10,7 +10,8 @@ class MainPage extends Component {
     sideDrawerOpen: false,
     venues: [],
     filterQuery: '',
-    markers: []
+    markers: [],
+    ariaExpand: false
   }
 
   // Adds the ability to change state of venues via props.
@@ -44,10 +45,20 @@ class MainPage extends Component {
   drawerToggleButtonHandler = () => {
     this.setState((prevState) => {
       return {
-        sideDrawerOpen: !prevState.sideDrawerOpen
+        sideDrawerOpen: !prevState.sideDrawerOpen,
+        ariaExpand: !prevState.ariaExpand
       }
     })
   }
+
+  drawerCloseOnMapHandler = () => {
+    if (this.state.sideDrawerOpen === true) {
+      this.setState({sideDrawerOpen: false,
+      ariaExpand: false})
+    }
+  }
+
+
 
   // Triggers a click on the marker after clicking corrisponding name in side drawer.
   handleClick = (id) => {
@@ -66,10 +77,10 @@ class MainPage extends Component {
     return (<div style={{
         height: '100%'
       }}>
-      <Header click={this.drawerToggleButtonHandler}/>
+      <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
       {sideDrawer}
-      <main>
-        <Map addVenues={this.addVenues} venues={this.state.venues} filterQuery={this.state.filterQuery} addMarker={this.addMarker} clearMarkers={this.clearMarkers}/>
+      <main onClick={this.drawerCloseOnMapHandler}>
+        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterQuery={this.state.filterQuery} addMarker={this.addMarker} clearMarkers={this.clearMarkers}/>
       </main>
     </div>)
   }

@@ -19,6 +19,7 @@ class Map extends Component {
     }
   }
 
+
   // Calls all the info for venues, sets up endpoint and retrieves the information.
   getVenues = (query) => {
     const venueRequest = 'https://api.foursquare.com/v2/venues/explore?'
@@ -61,7 +62,7 @@ class Map extends Component {
     this.props.venues.forEach(markedVenue => {
 
       // Creates the content for the infowindow
-      var contentString = `<div id="infoContent">
+      var contentString = `<div id="infoContent" tabIndex="0">
       <div id="siteNotice">
       </div>
       <h1 id="firstHeading" class="firstHeading"> ${markedVenue.venue.name} </h1>
@@ -100,6 +101,18 @@ class Map extends Component {
 
     map.fitBounds(bounds)
     map.panToBounds(bounds)
+
+    setTimeout(() => {
+      var oldAlert = document.getElementById("alert")
+      if (oldAlert){ document.body.removeChild(oldAlert) }
+
+      var newAlert = document.createElement("div")
+      newAlert.setAttribute("role", "alert")
+      newAlert.setAttribute("id", "alert")
+      var msg = document.createTextNode('Venues have loaded')
+      newAlert.appendChild(msg)
+      document.body.appendChild(newAlert)
+    }, 1000)
   }
 
   // Loads the map and creates the script file for the map.
@@ -127,7 +140,7 @@ class Map extends Component {
   }
 
   render() {
-    return (<div id='map' role="application" aria-label="Map"></div>)
+    return (<div id='map' role="application" aria-label="Map" tabIndex="-1"></div>)
   }
 }
 

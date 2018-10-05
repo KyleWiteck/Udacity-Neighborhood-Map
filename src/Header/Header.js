@@ -10,10 +10,10 @@ class Header extends Component {
       <header>
         <nav id="main-nav">
           <div id='hamburger'>
-            <DrawerToggleButton click={this.props.click}/>
+            <DrawerToggleButton click={this.props.click} ariaExpand={this.props.ariaExpand}/>
           </div>
-          <div id="logo">
-            <a href="/">LOGO</a>
+          <div id="logo" tabIndex='-1'>
+            <a href="/" tabIndex='-1'>LOGO</a>
           </div>
           <div id="nav-list">
           </div>
