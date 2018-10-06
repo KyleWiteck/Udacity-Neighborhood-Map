@@ -45,7 +45,7 @@ class SideDrawer extends Component {
       <div id='side-drawer'>
         <form onSubmit={this.handleSubmit} role="search">
           <label>
-            <input type="text" name="venue-type" aria-label='Type the catagory you wish to filter of the map and press enter' onChange={this.handleChange}/>
+            <input type="text" name="venue-type" placeholder='Filter A Topic' aria-label='Type the catagory you wish to filter of the map and press enter' onChange={this.handleChange}/>
           </label>
           <input type="submit" value="Filter"/>
         </form>
