@@ -40,6 +40,7 @@ class SideDrawer extends Component {
 
 
   render() {
+    console.log(this.props.venues)
     return (
       <div id='side-drawer'>
         <form onSubmit={this.handleSubmit} role="search">
@@ -54,7 +55,7 @@ class SideDrawer extends Component {
               {
                 this.props.venues.map((venue, index) => {
                   return(
-                  <li role='button' key={index}>
+                  <li key={index}>
                     <a className="drawer-name" aria-label={`${venue.venue.name} ${venue.venue.location.formattedAddress} ${venue.venue.categories[0].name}`  } onClick={() => {this.handleClick(venue.venue.id)}} onKeyPress={() => {this.handleClick(venue.venue.id)}} tabIndex="0">
                       {venue.venue.name}
                     </a>

@@ -42,7 +42,8 @@ class Map extends Component {
       },
       // loads and initiates the map.
       this.loadInitMap())
-    }).catch(error => console.log('Foursquare had an error! ', error))
+    }).catch(error => {console.log('Foursquare had an error! ', error)
+  alert('Foursquare API failed to load. Please check your internet connection and refresh the page. ', error)})
   }
 
   // Initiates the map, sets up markers, adds info windows, and sets positions.
@@ -121,16 +122,21 @@ class Map extends Component {
     }, 1000)
   }
 
+
   // Loads the map and creates the script file for the map.
   loadMap = (src) => {
     const scriptElement = window.document.createElement('script')
     const firstScript = window.document.getElementsByTagName('script')[0]
+    const gmFailure = window.gm_authFailure = function() {
+      alert('Google maps failed to load! Authentication failure.');
+    }
 
     scriptElement.setAttribute("id", "map-script")
+    scriptElement.setAttribute('onerror', gmFailure)
     scriptElement.src = src
     scriptElement.async = true
     scriptElement.defer = true
-    firstScript.parentNode.insertBefore(scriptElement, firstScript)
+    firstScript.parentNode.insertBefore(scriptElement, firstScript, gmFailure)
     window.initMap = this.initMap
   }
 
