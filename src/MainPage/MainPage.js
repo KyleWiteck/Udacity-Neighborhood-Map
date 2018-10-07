@@ -8,10 +8,31 @@ import '../MainPage/MainPage.css';
 class MainPage extends Component {
   state = {
     sideDrawerOpen: false,
-    venues: [],
-    filterQuery: '',
+
+    topicQuery: '', //1
+    // [Popular, Coffee, Parks, Food, Desert, Museum, Auto, Grocery, Historic Site]
+    filterSection: 'topPicks', //2
+    venues: [], //3
+    updatedVenues: [], //4
+
     markers: [],
+
     ariaExpand: false
+  }
+
+  filterList = (event) => {
+    let venues = this.state.venues;
+    let  updatedVenues = venues.filter(venue => {
+      return venue.toLowerCase().search(
+        event.target.value.toLowerCase()) !== -1;
+    });
+    this.state({updatedVenues: updatedVenues})
+  }
+
+  addTopic = (topic) => {
+    this.setState({
+      topicQuery: topic
+    })
   }
 
   // Adds the ability to change state of venues via props.
@@ -32,11 +53,11 @@ class MainPage extends Component {
     })
   }
 
-  // Adds the ability to change state of filterQuery via props.
+  // Adds the ability to change state of filterSection via props.
   // Works with input filter in side drawer.
   venueTypeFilter = (input) => {
     this.setState({
-      filterQuery: input
+      filterSection: input
     })
   }
 
@@ -59,7 +80,6 @@ class MainPage extends Component {
   }
 
 
-
   // Triggers a click on the marker after clicking corrisponding name in side drawer.
   handleClick = (id) => {
     const foundMarker = this.state.markers.find(marker => marker.name === id)
@@ -71,8 +91,12 @@ class MainPage extends Component {
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues} filter={this.venueTypeFilter} markers={this.state.markers}/>
+      sideDrawer = <SideDrawer venues={this.state.venues} filter={this.venueTypeFilter} markers={this.state.markers} addTopic={this.addTopic} filterSection={this.state.filterSection}/>
     }
+
+    console.log(this.state.filterSection)
+    console.log(this.state.venues)
+
 
     return (<div style={{
         height: '100%'
@@ -80,7 +104,7 @@ class MainPage extends Component {
       <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
       {sideDrawer}
       <main onClick={this.drawerCloseOnMapHandler}>
-        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterQuery={this.state.filterQuery} addMarker={this.addMarker} clearMarkers={this.clearMarkers}/>
+        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} clearMarkers={this.clearMarkers}/>
       </main>
     </div>)
   }

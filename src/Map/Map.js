@@ -9,13 +9,13 @@ class Map extends Component {
 
   // Loads all the map information once it is mounted.
   componentDidMount() {
-    this.getVenues(this.props.filterQuery)
+    this.getVenues(this.props.filterSection)
   }
 
   // Loads all the map information once it changes or updates.
   componentDidUpdate(prevProps) {
-    if (prevProps.filterQuery !== this.props.filterQuery) {
-      this.getVenues(this.props.filterQuery)
+    if (prevProps.filterSection !== this.props.filterSection) {
+      this.getVenues(this.props.filterSection)
     }
   }
 
@@ -23,27 +23,29 @@ class Map extends Component {
   // Calls all the info for venues, sets up endpoint and retrieves the information.
   //This uses Foursquares API's database.
   getVenues = (query) => {
-    const venueRequest = 'https://api.foursquare.com/v2/venues/explore?'
-    const parameters = {
-      near: "Asheville, NC",
-      client_id: "U40J3UEBLCG1TMBEQ4XCEU1J5GYNFSPMUJWVVGN4EDR5SJUQ",
-      client_secret: "F5BB10TQ0IUVYVSHHKIVKXJ1SVFHX5UFURW4CASUACWPGV0D",
-      query: query,
-      v: "20180922"
-    }
 
-    // Creates the full URL
-    const endPoint = venueRequest + new URLSearchParams(parameters)
+      const venueRequest = 'https://api.foursquare.com/v2/venues/explore?'
+      const parameters = {
+        near: "Asheville, NC",
+        client_id: "U40J3UEBLCG1TMBEQ4XCEU1J5GYNFSPMUJWVVGN4EDR5SJUQ",
+        client_secret: "F5BB10TQ0IUVYVSHHKIVKXJ1SVFHX5UFURW4CASUACWPGV0D",
+        section: query,
+        v: "20180922"
+      }
 
-    fetch(endPoint).then(response => response.json()).then(parsedJSON => {
-      this.props.addVenues(parsedJSON.response.groups[0].items)
-      this.setState({
-        venues: parsedJSON.response.groups[0].items
-      },
-      // loads and initiates the map.
-      this.loadInitMap())
-    }).catch(error => {console.log('Foursquare had an error! ', error)
-  alert('Foursquare API failed to load. Please check your internet connection and refresh the page. ', error)})
+      // Creates the full URL
+      const endPoint = venueRequest + new URLSearchParams(parameters)
+
+      fetch(endPoint).then(response => response.json()).then(parsedJSON => {
+        this.props.addVenues(parsedJSON.response.groups[0].items)
+        this.setState({
+          venues: parsedJSON.response.groups[0].items
+        },
+        // loads and initiates the map.
+        this.loadInitMap())
+      }).catch(error => {console.log('Foursquare had an error! ', error)
+        alert('Foursquare API failed to load. Please check your internet connection and refresh the page. ', error)})
+    // }
   }
 
   // Initiates the map, sets up markers, adds info windows, and sets positions.
@@ -64,46 +66,46 @@ class Map extends Component {
 
     this.props.venues.forEach(markedVenue => {
 
-      // Creates the content for the infowindow
-      var contentString = `<div id="infoContent" tabIndex="0">
-      <div id="siteNotice">
-      </div>
-      <h1 id="firstHeading" class="firstHeading"> ${markedVenue.venue.name} </h1>
-      <p id="address"> <b>${markedVenue.venue.location.formattedAddress[0]}<br>
-      ${markedVenue.venue.location.formattedAddress[1]}</b>
-      </p>
-      <div id="bodyContent">
-      <p> ${markedVenue.venue.categories[0].name} </p>
-      </div>
-      </div>`
+        // Creates the content for the infowindow
+        var contentString = `<div id="infoContent" tabIndex="0">
+        <div id="siteNotice">
+        </div>
+        <h1 id="firstHeading" class="firstHeading"> ${markedVenue.venue.name} </h1>
+        <p id="address"> <b>${markedVenue.venue.location.formattedAddress[0]}<br>
+        ${markedVenue.venue.location.formattedAddress[1]}</b>
+        </p>
+        <div id="bodyContent">
+        <p> ${markedVenue.venue.categories[0].name} </p>
+        </div>
+        </div>`
 
-      // Creates marker for the venue that is called
-      var marker = new window.google.maps.Marker({
-        position: {
-          lat: markedVenue.venue.location.lat,
-          lng: markedVenue.venue.location.lng
-        },
-        title: markedVenue.venue.name,
-        id: markedVenue.venue.id,
-        map: map
-      })
+        // Creates marker for the venue that is called
+        var marker = new window.google.maps.Marker({
+          position: {
+            lat: markedVenue.venue.location.lat,
+            lng: markedVenue.venue.location.lng
+          },
+          title: markedVenue.venue.name,
+          id: markedVenue.venue.id,
+          map: map
+        })
 
-      var loc = new window.google.maps.LatLng(marker.position.lat(), marker.position.lng());
-      bounds.extend(loc)
+        var loc = new window.google.maps.LatLng(marker.position.lat(), marker.position.lng());
+        bounds.extend(loc)
 
-      // Adds event listener to open info window on click.
-      marker.addListener('click', () => {
-        map.setCenter(marker.getPosition())
-        marker.setAnimation(window.google.maps.Animation.BOUNCE)
-        setTimeout(() => {
-          marker.setAnimation(null)
-        }, 1000)
-        infoWin.setContent(contentString)
-        infoWin.open(map, marker)
-      })
+        // Adds event listener to open info window on click.
+        marker.addListener('click', () => {
+          map.setCenter(marker.getPosition())
+          marker.setAnimation(window.google.maps.Animation.BOUNCE)
+          setTimeout(() => {
+            marker.setAnimation(null)
+          }, 1000)
+          infoWin.setContent(contentString)
+          infoWin.open(map, marker)
+        })
 
-      // Adds each marker that is on the page to the markers state array.
-      this.props.addMarker(marker)
+        // Adds each marker that is on the page to the markers state array.
+        this.props.addMarker(marker)
     })
 
     map.fitBounds(bounds)
@@ -127,16 +129,14 @@ class Map extends Component {
   loadMap = (src) => {
     const scriptElement = window.document.createElement('script')
     const firstScript = window.document.getElementsByTagName('script')[0]
-    const gmFailure = window.gm_authFailure = function() {
-      alert('Google maps failed to load! Authentication failure.');
-    }
+
+    scriptElement.onerror = () => {Window.alert("Google Maps API failed to load data!")}
 
     scriptElement.setAttribute("id", "map-script")
-    scriptElement.setAttribute('onerror', gmFailure)
     scriptElement.src = src
     scriptElement.async = true
     scriptElement.defer = true
-    firstScript.parentNode.insertBefore(scriptElement, firstScript, gmFailure)
+    firstScript.parentNode.insertBefore(scriptElement, firstScript)
     window.initMap = this.initMap
   }
 
