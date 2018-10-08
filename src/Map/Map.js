@@ -1,11 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 
 import '../Map/Map.css'
 
 class Map extends Component {
-  state = {
-    markers: []
-  }
 
   // Loads all the map information once it is mounted.
   componentDidMount() {
@@ -14,10 +11,11 @@ class Map extends Component {
 
   // Loads all the map information once it changes or updates.
   componentDidUpdate(prevProps) {
-    if (prevProps.filterSection !== this.props.filterSection) {
+    if (prevProps.reload !== this.props.reload) {
+      console.log('reloaded venues');
       this.getVenues(this.props.filterSection)
     } else if (prevProps.venues > this.props.venues) {
-      this.initMap()
+      this.loadInitMap()
     }
   }
 
@@ -62,11 +60,9 @@ class Map extends Component {
     })
 
     var infoWin = new window.google.maps.InfoWindow()
-    var bounds = new window.google.maps.LatLngBounds();
+    var bounds = new window.google.maps.LatLngBounds()
 
     // Sets the markers state on the MainPage to empty
-    this.props.clearMarkers()
-
     this.props.venues.forEach(markedVenue => {
 
         // Creates the content for the infowindow
@@ -93,7 +89,7 @@ class Map extends Component {
           map: map
         })
 
-        var loc = new window.google.maps.LatLng(marker.position.lat(), marker.position.lng());
+        var loc = new window.google.maps.LatLng(marker.position.lat(), marker.position.lng())
         bounds.extend(loc)
 
         // Adds event listener to open info window on click.
@@ -109,6 +105,7 @@ class Map extends Component {
 
         // Adds each marker that is on the page to the markers state array.
         this.props.addMarker(marker)
+
     })
 
     map.fitBounds(bounds)
@@ -125,6 +122,7 @@ class Map extends Component {
       newAlert.appendChild(msg)
       document.body.appendChild(newAlert)
     }, 1000)
+
   }
 
 

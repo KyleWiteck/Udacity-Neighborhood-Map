@@ -8,6 +8,7 @@ import '../MainPage/MainPage.css';
 class MainPage extends Component {
   state = {
     sideDrawerOpen: false,
+    reload: false,
 
     topicQuery: '',
     // [Popular, Coffee, Parks, Food, Desert, Museum, Auto, Grocery, Historic Site]
@@ -20,10 +21,24 @@ class MainPage extends Component {
     ariaExpand: false
   }
 
+  reloadState = () => {
+    if (this.state.reload === true){
+      this.setState({reload: false})
+    } else {
+      this.setState({reload: true})
+    }
+  }
+
 
   addTopic = (topic) => {
     this.setState({
       topicQuery: topic
+    })
+  }
+
+  clearTopic = () => {
+    this.setState({
+      topicQuery: ''
     })
   }
 
@@ -34,12 +49,19 @@ class MainPage extends Component {
     })
   }
 
+  clearVenues = () => {
+    this.setState({
+      venues: []
+    })
+  }
+
   // Adds the ability to push marker to markers state via props.
   addMarker = (marker) => {
     this.state.markers.push(marker)
   }
 
-  clearMarkers = () => {
+
+  clearMarkersArray = () => {
     this.setState({
       markers: []
     })
@@ -85,14 +107,15 @@ class MainPage extends Component {
   }
 
   render() {
+
     let sideDrawer
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues} filter={this.venueTypeFilter}  markers={this.state.markers}  filterSection={this.state.filterSection} filterList={this.filterList} addVenues={this.addVenues}/>
+      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.venueTypeFilter}  markers={this.state.markers}  filterSection={this.state.filterSection} filterList={this.filterList} addVenues={this.addVenues} clearMarkers={this.clearMarkersArray} clearVenues={this.clearVenues} reloadState={this.reloadState} reload={this.state.reload}/>
     }
 
-    console.log(this.state.venues)
+
 
     return (<div style={{
         height: '100%'
@@ -100,7 +123,7 @@ class MainPage extends Component {
       <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
       {sideDrawer}
       <main onClick={this.drawerCloseOnMapHandler}>
-        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} clearMarkers={this.clearMarkers} />
+        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers}/>
       </main>
     </div>)
   }

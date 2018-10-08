@@ -22,14 +22,14 @@ class SideDrawer extends Component {
 
   // Takes the value from the state and adds it to the filterSection state on the MainPage.
   handleSubmit = (event) => {
+    this.props.clearMarkers()
     let venues = this.props.venues;
     let  updatedVenues = venues.filter(venue => {
       return venue.venue.name.toLowerCase().search(
-        this.state.value.toLowerCase()) !== -1;
+        this.state.value.toLowerCase()) !== -1
     });
     this.props.addVenues(updatedVenues)
-
-    event.preventDefault();
+    event.preventDefault()
   }
 
   // If the name is clicked in the drawer,
@@ -37,6 +37,8 @@ class SideDrawer extends Component {
   handleClick = (id) => {
     let foundMarker = this.props.markers.find(marker => marker.id === id)
     window.google.maps.event.trigger(foundMarker, 'click')
+    console.log(this.props.markers)
+    console.log(id)
   }
 
   scrollToTop = () => {
@@ -75,6 +77,12 @@ class SideDrawer extends Component {
 
           liElement.addEventListener('click', () => {
 
+            this.props.reloadState()
+            console.log(this.props.reload)
+
+            this.props.clearVenues()
+            this.props.clearMarkers()
+
             this.props.filter(topic)
 
             ulContent.innerHTML = ""
@@ -106,6 +114,7 @@ class SideDrawer extends Component {
 
 
   render() {
+        console.log(this.props.venues)
     return (
       <div id='side-drawer'>
 
