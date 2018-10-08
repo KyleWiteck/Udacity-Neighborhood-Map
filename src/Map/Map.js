@@ -16,6 +16,8 @@ class Map extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.filterSection !== this.props.filterSection) {
       this.getVenues(this.props.filterSection)
+    } else if (prevProps.venues > this.props.venues) {
+      this.initMap()
     }
   }
 
