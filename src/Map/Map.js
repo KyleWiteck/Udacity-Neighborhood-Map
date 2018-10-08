@@ -28,7 +28,7 @@ class Map extends Component {
       const parameters = {
         near: "Asheville, NC",
         client_id: "U40J3UEBLCG1TMBEQ4XCEU1J5GYNFSPMUJWVVGN4EDR5SJUQ",
-        client_secret: "F5BB10TQ0IUVYVSHHKIVKXJ1SVFHX5UFURW4CASUACWPGV0D",
+        client_secret: "K2Q3EF34FFUWGHINGC4AY4FX3LLLJCXQC2ILZRZP44CDG54U",
         section: query,
         v: "20180922"
       }
