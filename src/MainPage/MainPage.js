@@ -9,25 +9,17 @@ class MainPage extends Component {
   state = {
     sideDrawerOpen: false,
 
-    topicQuery: '', //1
+    topicQuery: '',
     // [Popular, Coffee, Parks, Food, Desert, Museum, Auto, Grocery, Historic Site]
-    filterSection: 'topPicks', //2
-    venues: [], //3
-    updatedVenues: [], //4
+    filterSection: '',
+    filterName: '',
+    venues: [],
 
     markers: [],
 
     ariaExpand: false
   }
 
-  filterList = (event) => {
-    let venues = this.state.venues;
-    let  updatedVenues = venues.filter(venue => {
-      return venue.toLowerCase().search(
-        event.target.value.toLowerCase()) !== -1;
-    });
-    this.state({updatedVenues: updatedVenues})
-  }
 
   addTopic = (topic) => {
     this.setState({
@@ -61,6 +53,12 @@ class MainPage extends Component {
     })
   }
 
+  nameFilter = (input) => {
+    this.setState({
+      filterName: input
+    })
+  }
+
 
   // Opens and closes the side drawer when clicking hamburger icon.
   drawerToggleButtonHandler = () => {
@@ -91,12 +89,10 @@ class MainPage extends Component {
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues} filter={this.venueTypeFilter} markers={this.state.markers} addTopic={this.addTopic} filterSection={this.state.filterSection}/>
+      sideDrawer = <SideDrawer venues={this.state.venues} filter={this.venueTypeFilter}  markers={this.state.markers}  filterSection={this.state.filterSection} filterList={this.filterList} addVenues={this.addVenues}/>
     }
 
-    console.log(this.state.filterSection)
     console.log(this.state.venues)
-
 
     return (<div style={{
         height: '100%'
@@ -104,7 +100,7 @@ class MainPage extends Component {
       <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
       {sideDrawer}
       <main onClick={this.drawerCloseOnMapHandler}>
-        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} clearMarkers={this.clearMarkers}/>
+        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} clearMarkers={this.clearMarkers} />
       </main>
     </div>)
   }

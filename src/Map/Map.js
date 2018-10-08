@@ -37,6 +37,7 @@ class Map extends Component {
       const endPoint = venueRequest + new URLSearchParams(parameters)
 
       fetch(endPoint).then(response => response.json()).then(parsedJSON => {
+        console.log(parsedJSON)
         this.props.addVenues(parsedJSON.response.groups[0].items)
         this.setState({
           venues: parsedJSON.response.groups[0].items

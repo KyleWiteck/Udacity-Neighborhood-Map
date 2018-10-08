@@ -22,7 +22,13 @@ class SideDrawer extends Component {
 
   // Takes the value from the state and adds it to the filterSection state on the MainPage.
   handleSubmit = (event) => {
-    this.props.filter(this.state.value)
+    let venues = this.props.venues;
+    let  updatedVenues = venues.filter(venue => {
+      return venue.venue.name.toLowerCase().search(
+        this.state.value.toLowerCase()) !== -1;
+    });
+    this.props.addVenues(updatedVenues)
+
     event.preventDefault();
   }
 
@@ -54,10 +60,6 @@ class SideDrawer extends Component {
       dropNav.style.display = 'block'
 
       const topics = this.state.topics
-      const section = this.state.section
-
-
-      console.log(topics)
 
       topics.forEach(topic => {
 
@@ -104,7 +106,6 @@ class SideDrawer extends Component {
 
 
   render() {
-    console.log(this.props.venues)
     return (
       <div id='side-drawer'>
 
@@ -118,7 +119,7 @@ class SideDrawer extends Component {
           <div id='filter'>
           <form onSubmit={this.handleSubmit} role="search">
             <label>
-              <input type="text" name="venue-type" placeholder='Filter A Topic' aria-label='Type the catagory you wish to filter of the map and press enter' onChange={this.handleChange}/>
+              <input type="text" name="venue-type" placeholder='Filter By Name' aria-label='Type the catagory you wish to filter of the map and press enter' onChange={this.handleChange}/>
             </label>
             <input type="submit" value="Filter"/>
           </form>
