@@ -10,9 +10,7 @@ class MainPage extends Component {
     sideDrawerOpen: false,
     reload: false,
 
-    topicQuery: '',
-    // [Popular, Coffee, Parks, Food, Desert, Museum, Auto, Grocery, Historic Site]
-    filterSection: '',
+    filterSection: 'topPick',
     filterName: '',
     venues: [],
 
@@ -27,19 +25,6 @@ class MainPage extends Component {
     } else {
       this.setState({reload: true})
     }
-  }
-
-
-  addTopic = (topic) => {
-    this.setState({
-      topicQuery: topic
-    })
-  }
-
-  clearTopic = () => {
-    this.setState({
-      topicQuery: ''
-    })
   }
 
   // Adds the ability to change state of venues via props.
@@ -108,11 +93,12 @@ class MainPage extends Component {
 
   render() {
 
+console.log(this.state.filterSection)
     let sideDrawer
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.venueTypeFilter}  markers={this.state.markers}  filterSection={this.state.filterSection} filterList={this.filterList} addVenues={this.addVenues} clearMarkers={this.clearMarkersArray} clearVenues={this.clearVenues} reloadState={this.reloadState} reload={this.state.reload}/>
+      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.venueTypeFilter}  markers={this.state.markers}  filterSection={this.state.filterSection} filterList={this.filterList} addVenues={this.addVenues} clearMarkers={this.clearMarkersArray} clearVenues={this.clearVenues} reloadState={this.reloadState} />
     }
 
 
@@ -123,7 +109,7 @@ class MainPage extends Component {
       <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
       {sideDrawer}
       <main onClick={this.drawerCloseOnMapHandler}>
-        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers}/>
+        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers} reload={this.state.reload}/>
       </main>
     </div>)
   }

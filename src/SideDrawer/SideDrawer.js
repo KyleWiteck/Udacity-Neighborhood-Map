@@ -76,12 +76,11 @@ class SideDrawer extends Component {
           liElement.setAttribute('tabIndex', '0')
 
           liElement.addEventListener('click', () => {
+            this.props.clearVenues()
+            this.props.clearMarkers()
 
             this.props.reloadState()
             console.log(this.props.reload)
-
-            this.props.clearVenues()
-            this.props.clearMarkers()
 
             this.props.filter(topic)
 
