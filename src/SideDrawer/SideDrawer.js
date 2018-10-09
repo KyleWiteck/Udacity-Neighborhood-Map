@@ -22,13 +22,13 @@ class SideDrawer extends Component {
 
   // Takes the value from the state and adds it to the filterSection state on the MainPage.
   handleSubmit = (event) => {
-    this.props.clearMarkers()
     let venues = this.props.venues;
     let  updatedVenues = venues.filter(venue => {
       return venue.venue.name.toLowerCase().search(
         this.state.value.toLowerCase()) !== -1
     });
     this.props.addVenues(updatedVenues)
+
     event.preventDefault()
   }
 
@@ -56,18 +56,6 @@ class SideDrawer extends Component {
       this.setState({
         open: false
       })
-
-      setTimeout(() => {
-        var oldAlert = document.getElementById("aria-alert")
-        if (oldAlert){ document.body.removeChild(oldAlert) }
-
-        var newAlert = document.createElement("div")
-        newAlert.setAttribute("role", "alert")
-        newAlert.setAttribute("id", "aria-alert")
-        var msg = document.createTextNode('Catagories Closed')
-        newAlert.appendChild(msg)
-        document.body.appendChild(newAlert)
-      }, 1000)
     } else {
       dropNav.style.display = 'block'
 
@@ -84,18 +72,6 @@ class SideDrawer extends Component {
           ulContent.appendChild(liElement)
           liElement.appendChild(aTag)
           liElement.setAttribute('tabIndex', '0')
-
-          setTimeout(() => {
-            var oldAlert = document.getElementById("aria-alert")
-            if (oldAlert){ document.body.removeChild(oldAlert) }
-
-            var newAlert = document.createElement("div")
-            newAlert.setAttribute("role", "alert")
-            newAlert.setAttribute("id", "aria-alert")
-            var msg = document.createTextNode('Catagories Open')
-            newAlert.appendChild(msg)
-            document.body.appendChild(newAlert)
-          }, 1000)
 
           liElement.addEventListener('click', () => {
 
@@ -116,17 +92,17 @@ class SideDrawer extends Component {
             const key = e.which || e.keycode
             if (key === 13) {
 
-              this.props.clearVenues()
-              this.props.clearMarkers()
+            this.props.clearVenues()
+            this.props.clearMarkers()
 
-              this.props.reloadState()
+            this.props.reloadState()
 
-              this.props.filter(topic)
+            this.props.filter(topic)
 
-              ulContent.innerHTML = ""
-              this.setState({
-                open: false
-              })
+            ulContent.innerHTML = ""
+            this.setState({
+              open: false
+            })
             }
         })
       })
@@ -137,8 +113,9 @@ class SideDrawer extends Component {
     }
   }
 
-  render() {
 
+
+  render() {
     return (
       <div id='side-drawer'>
 
@@ -152,7 +129,7 @@ class SideDrawer extends Component {
           <div id='filter'>
           <form onSubmit={this.handleSubmit} role="search">
             <label>
-              <input type="text" name="venue-type" placeholder='Filter By Name' aria-label='Type the name you wish to search for and press enter' onChange={this.handleChange}/>
+              <input type="text" name="venue-type" placeholder='Filter By Name' aria-label='Type the catagory you wish to filter of the map and press enter' onChange={this.handleChange}/>
             </label>
             <input type="submit" value="Filter"/>
           </form>

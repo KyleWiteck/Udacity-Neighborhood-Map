@@ -35,8 +35,8 @@ class MainPage extends Component {
   }
 
   clearVenues = () => {
-    this.setState({
-      venues: []
+    this.state.venues.forEach(venue => {
+      this.state.venues.splice(venue)
     })
   }
 
@@ -47,8 +47,8 @@ class MainPage extends Component {
 
 
   clearMarkersArray = () => {
-    this.setState({
-      markers: []
+    this.state.markers.forEach(marker => {
+      this.state.markers.splice(marker)
     })
   }
 
@@ -92,6 +92,7 @@ class MainPage extends Component {
   }
 
   render() {
+
     let sideDrawer
 
     // Adds and removes side drawer when hamburger icon is clicked.

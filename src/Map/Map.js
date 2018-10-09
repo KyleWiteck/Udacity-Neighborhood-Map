@@ -18,8 +18,7 @@ class Map extends Component {
       setTimeout(() => {this.getVenues(this.props.filterSection)}, 100)
 
     } else if (prevProps.venues > this.props.venues) {
-
-      this.loadInitMap()
+      this.initMap()
     }
   }
 
@@ -32,7 +31,7 @@ class Map extends Component {
       const parameters = {
         near: "Asheville, NC",
         client_id: "U40J3UEBLCG1TMBEQ4XCEU1J5GYNFSPMUJWVVGN4EDR5SJUQ",
-        client_secret: "K2Q3EF34FFUWGHINGC4AY4FX3LLLJCXQC2ILZRZP44CDG54U",
+        client_secret: "OKA5YRRWSVBJCZ5QEY5PKBUFWDVQUFW2N3E0KIHCONWFN0AF",
         section: query,
         v: "20180922"
       }
@@ -110,7 +109,7 @@ class Map extends Component {
         })
 
         // Adds each marker that is on the page to the markers state array.
-        this.props.addMarker(marker)
+        this.props.markers.push(marker)
 
     })
 
