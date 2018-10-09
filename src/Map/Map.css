@@ -11,5 +11,5 @@
 }
 
 #aria-alert {
-  display: none;
+  position: fixed;
 }

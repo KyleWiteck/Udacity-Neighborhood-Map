@@ -58,6 +58,18 @@ class SideDrawer extends Component {
       this.setState({
         open: false
       })
+
+      setTimeout(() => {
+        var oldAlert = document.getElementById("aria-alert")
+        if (oldAlert){ document.body.removeChild(oldAlert) }
+
+        var newAlert = document.createElement("div")
+        newAlert.setAttribute("role", "alert")
+        newAlert.setAttribute("id", "aria-alert")
+        var msg = document.createTextNode('Catagories Closed')
+        newAlert.appendChild(msg)
+        document.body.appendChild(newAlert)
+      }, 1000)
     } else {
       dropNav.style.display = 'block'
 
@@ -75,8 +87,20 @@ class SideDrawer extends Component {
           liElement.appendChild(aTag)
           liElement.setAttribute('tabIndex', '0')
 
+          setTimeout(() => {
+            var oldAlert = document.getElementById("aria-alert")
+            if (oldAlert){ document.body.removeChild(oldAlert) }
+
+            var newAlert = document.createElement("div")
+            newAlert.setAttribute("role", "alert")
+            newAlert.setAttribute("id", "aria-alert")
+            var msg = document.createTextNode('Catagories Open')
+            newAlert.appendChild(msg)
+            document.body.appendChild(newAlert)
+          }, 1000)
+
           liElement.addEventListener('click', () => {
-            this.props.clearVenues()
+
             this.props.clearMarkers()
 
             this.props.reloadState()
@@ -94,6 +118,12 @@ class SideDrawer extends Component {
             const key = e.which || e.keycode
             if (key === 13) {
 
+              this.props.clearVenues()
+              this.props.clearMarkers()
+
+              this.props.reloadState()
+              console.log(this.props.reload)
+
               this.props.filter(topic)
 
               ulContent.innerHTML = ""
@@ -108,6 +138,10 @@ class SideDrawer extends Component {
           open: true
         })
     }
+  }
+
+  venueList = () => {
+    `list of venues ${this.props.venues.length}`
   }
 
 
@@ -127,7 +161,7 @@ class SideDrawer extends Component {
           <div id='filter'>
           <form onSubmit={this.handleSubmit} role="search">
             <label>
-              <input type="text" name="venue-type" placeholder='Filter By Name' aria-label='Type the catagory you wish to filter of the map and press enter' onChange={this.handleChange}/>
+              <input type="text" name="venue-type" placeholder='Filter By Name' aria-label='Type the name you wish to search for and press enter' onChange={this.handleChange}/>
             </label>
             <input type="submit" value="Filter"/>
           </form>

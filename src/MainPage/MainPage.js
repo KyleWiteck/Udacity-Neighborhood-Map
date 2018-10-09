@@ -10,7 +10,7 @@ class MainPage extends Component {
     sideDrawerOpen: false,
     reload: false,
 
-    filterSection: 'topPick',
+    filterSection: '',
     filterName: '',
     venues: [],
 
@@ -93,12 +93,14 @@ class MainPage extends Component {
 
   render() {
 
+console.log(this.state.reload)
+console.log(this.state.venues)
 console.log(this.state.filterSection)
     let sideDrawer
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.venueTypeFilter}  markers={this.state.markers}  filterSection={this.state.filterSection} filterList={this.filterList} addVenues={this.addVenues} clearMarkers={this.clearMarkersArray} clearVenues={this.clearVenues} reloadState={this.reloadState} />
+      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.venueTypeFilter}  markers={this.state.markers}  filterSection={this.state.filterSection} filterList={this.filterList} addVenues={this.addVenues} clearMarkers={this.clearMarkersArray} clearVenues={this.clearVenues} reloadState={this.reloadState} ariaExpand={this.state.ariaExpand}/>
     }
 
 

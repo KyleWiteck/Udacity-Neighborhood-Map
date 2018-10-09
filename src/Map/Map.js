@@ -11,9 +11,12 @@ class Map extends Component {
 
   // Loads all the map information once it changes or updates.
   componentDidUpdate(prevProps) {
-    if (prevProps.reload !== this.props.reload) {
-      console.log('reloaded venues');
-      this.getVenues(this.props.filterSection)
+    if (prevProps.filterSection !== this.props.filterSection) {
+      console.log('filterSection');
+      setTimeout(() => {this.getVenues(this.props.filterSection)}, 100)
+    } else if (prevProps.reload !== this.props.reload) {
+      console.log('reload');
+      setTimeout(() => {this.getVenues(this.props.filterSection)}, 100)
     } else if (prevProps.venues > this.props.venues) {
       this.loadInitMap()
     }
@@ -112,7 +115,7 @@ class Map extends Component {
     map.panToBounds(bounds)
 
     setTimeout(() => {
-      var oldAlert = document.getElementById("alert")
+      var oldAlert = document.getElementById("aria-alert")
       if (oldAlert){ document.body.removeChild(oldAlert) }
 
       var newAlert = document.createElement("div")
