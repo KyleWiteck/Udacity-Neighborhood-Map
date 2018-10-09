@@ -92,10 +92,6 @@ class MainPage extends Component {
   }
 
   render() {
-
-console.log(this.state.reload)
-console.log(this.state.venues)
-console.log(this.state.filterSection)
     let sideDrawer
 
     // Adds and removes side drawer when hamburger icon is clicked.
@@ -111,7 +107,7 @@ console.log(this.state.filterSection)
       <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
       {sideDrawer}
       <main onClick={this.drawerCloseOnMapHandler}>
-        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers} reload={this.state.reload}/>
+        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers} clearMarkers={this.clearMarkersArray} reload={this.state.reload} clearVenues={this.clearVenues}/>
       </main>
     </div>)
   }

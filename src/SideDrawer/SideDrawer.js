@@ -37,8 +37,6 @@ class SideDrawer extends Component {
   handleClick = (id) => {
     let foundMarker = this.props.markers.find(marker => marker.id === id)
     window.google.maps.event.trigger(foundMarker, 'click')
-    console.log(this.props.markers)
-    console.log(id)
   }
 
   scrollToTop = () => {
@@ -101,10 +99,10 @@ class SideDrawer extends Component {
 
           liElement.addEventListener('click', () => {
 
+            this.props.clearVenues()
             this.props.clearMarkers()
 
             this.props.reloadState()
-            console.log(this.props.reload)
 
             this.props.filter(topic)
 
@@ -122,7 +120,6 @@ class SideDrawer extends Component {
               this.props.clearMarkers()
 
               this.props.reloadState()
-              console.log(this.props.reload)
 
               this.props.filter(topic)
 
@@ -140,14 +137,8 @@ class SideDrawer extends Component {
     }
   }
 
-  venueList = () => {
-    `list of venues ${this.props.venues.length}`
-  }
-
-
-
   render() {
-        console.log(this.props.venues)
+
     return (
       <div id='side-drawer'>
 

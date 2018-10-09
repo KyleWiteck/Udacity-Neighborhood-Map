@@ -12,12 +12,13 @@ class Map extends Component {
   // Loads all the map information once it changes or updates.
   componentDidUpdate(prevProps) {
     if (prevProps.filterSection !== this.props.filterSection) {
-      console.log('filterSection');
       setTimeout(() => {this.getVenues(this.props.filterSection)}, 100)
+
     } else if (prevProps.reload !== this.props.reload) {
-      console.log('reload');
       setTimeout(() => {this.getVenues(this.props.filterSection)}, 100)
+
     } else if (prevProps.venues > this.props.venues) {
+
       this.loadInitMap()
     }
   }
@@ -40,7 +41,6 @@ class Map extends Component {
       const endPoint = venueRequest + new URLSearchParams(parameters)
 
       fetch(endPoint).then(response => response.json()).then(parsedJSON => {
-        console.log(parsedJSON)
         this.props.addVenues(parsedJSON.response.groups[0].items)
         this.setState({
           venues: parsedJSON.response.groups[0].items
@@ -55,6 +55,9 @@ class Map extends Component {
   // Initiates the map, sets up markers, adds info windows, and sets positions.
   // This uses Google Maps API
   initMap = () => {
+
+    this.props.clearMarkers()
+
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {
         lat: 35.584861,
