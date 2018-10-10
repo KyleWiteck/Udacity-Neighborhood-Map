@@ -61,7 +61,12 @@ class Map extends Component {
       center: {
         lat: 35.584861,
         lng: -82.557763
-      }
+      },
+      zoomControl: true,
+      zoomControlOptions: {
+          position: window.google.maps.ControlPosition.RIGHT_CENTER
+      },
+      fullscreenControl: true
     })
 
     var infoWin = new window.google.maps.InfoWindow()
@@ -126,7 +131,7 @@ class Map extends Component {
       var msg = document.createTextNode('Venues have loaded')
       newAlert.appendChild(msg)
       document.body.appendChild(newAlert)
-    }, 1000)
+    }, 500)
 
   }
 

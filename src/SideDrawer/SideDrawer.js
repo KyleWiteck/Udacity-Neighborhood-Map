@@ -56,10 +56,35 @@ class SideDrawer extends Component {
       this.setState({
         open: false
       })
+
+      setTimeout(() => {
+        var oldAlert = document.getElementById("aria-alert")
+        if (oldAlert){ document.body.removeChild(oldAlert) }
+
+        var newAlert = document.createElement("div")
+        newAlert.setAttribute("role", "alert")
+        newAlert.setAttribute("id", "aria-alert")
+        var msg = document.createTextNode('Categories Collapsed')
+        newAlert.appendChild(msg)
+        document.body.appendChild(newAlert)
+      }, 100)
+
     } else {
       dropNav.style.display = 'block'
 
       const topics = this.state.topics
+
+      setTimeout(() => {
+        var oldAlert = document.getElementById("aria-alert")
+        if (oldAlert){ document.body.removeChild(oldAlert) }
+
+        var newAlert = document.createElement("div")
+        newAlert.setAttribute("role", "alert")
+        newAlert.setAttribute("id", "aria-alert")
+        var msg = document.createTextNode('Categories Expanded')
+        newAlert.appendChild(msg)
+        document.body.appendChild(newAlert)
+      }, 100)
 
       topics.forEach(topic => {
 
