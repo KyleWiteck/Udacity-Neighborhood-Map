@@ -3,37 +3,49 @@ import React, {Component} from 'react';
 import './SideDrawer.css'
 
 class SideDrawer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+    state = {
       value: '',
       open: false,
       topics: ['Top Pick','Trending', 'Food', 'Coffee', 'Arts', 'Outdoors', 'Drinks', 'Shops'],
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+    }
 
   // Sets the value state to the current value that is being typed.
-  handleChange = (event) =>{
-    this.setState({value: event.target.value});
+  updateValue = (value) => {
+    this.setState({value: value})
+    this.handleChange(value)
   }
 
-  // Takes the value from the state and adds it to the filterSection state on the MainPage.
-  handleSubmit = (event) => {
-    let venues = this.props.venues;
-    let  updatedVenues = venues.filter(venue => {
-      return venue.venue.name.toLowerCase().search(
-        this.state.value.toLowerCase()) !== -1
-    });
-    this.props.addVenues(updatedVenues)
+  handleChange = (value) =>{
+    if (value) {
+      let venues = this.props.venueResults;
+      let  updatedVenues = venues.filter(venue => {
+        return venue.venue.name.toLowerCase().search(
+          value.toLowerCase()) !== -1
+      });
 
-    event.preventDefault()
+      this.props.venueResults.forEach(venue => {
+        this.props.venueResults.splice(venue)
+      })
+
+      updatedVenues.forEach(venue => {
+        this.props.venueResults.push(venue)
+      })
+
+      console.log(this.props.venueResults)
+    } else {
+
+      this.props.venueResults.forEach(venue => {
+        this.props.venueResults.splice(venue)
+      })
+
+      this.props.venues.forEach(venue => {
+        this.props.venueResults.push(venue)
+      })
+
+      console.log(this.props.venueResults)
+    }
   }
 
-  // If the name is clicked in the drawer,
-  // it will check for an id that matches and clicks the marker that relates to that name.
   handleClick = (id) => {
     let foundMarker = this.props.markers.find(marker => marker.id === id)
     window.google.maps.event.trigger(foundMarker, 'click')
@@ -102,6 +114,10 @@ class SideDrawer extends Component {
 
             this.props.clearVenues()
             this.props.clearMarkers()
+            this.props.venueResults.forEach(venue => {
+              this.props.venueResults.splice(venue)
+            })
+
 
             this.props.reloadState()
 
@@ -119,6 +135,9 @@ class SideDrawer extends Component {
 
             this.props.clearVenues()
             this.props.clearMarkers()
+            this.props.venueResults.forEach(venue => {
+              this.props.venueResults.splice(venue)
+            })
 
             this.props.reloadState()
 
@@ -138,8 +157,6 @@ class SideDrawer extends Component {
     }
   }
 
-
-
   render() {
     return (
       <div id='side-drawer'>
@@ -152,18 +169,17 @@ class SideDrawer extends Component {
           </div>
 
           <div id='filter'>
-          <form onSubmit={this.handleSubmit} role="search">
+          <form onSubmit={(e) => {e.preventDefault()}} role="search">
             <label>
-              <input type="text" name="venue-type" placeholder='Filter By Name' aria-label='Type the catagory you wish to filter of the map and press enter' onChange={this.handleChange}/>
+              <input type="text" name="venue-type" placeholder='Filter By Name' aria-label='Type the catagory you wish to filter of the map and press enter'  value={this.state.value} onChange={(e) => this.updateValue(e.target.value)}/>
             </label>
-            <input type="submit" value="Filter"/>
           </form>
 
           <div id='drawer-list' aria-label='List of venues' tabIndex='0'>
             <nav id='drawer-nav'>
               <ul id='marker-list'>
                 {
-                    this.props.venues.map((venue, index) => {
+                    this.props.venueResults.map((venue, index) => {
                       return(
                       <li key={index}>
                         <a className="drawer-name" aria-label={`${venue.venue.name} ${venue.venue.location.formattedAddress} ${venue.venue.categories[0].name}`  } onClick={() => {this.handleClick(venue.venue.id)}} onKeyPress={() => {this.handleClick(venue.venue.id)}} tabIndex="0">

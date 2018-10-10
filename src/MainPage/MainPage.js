@@ -9,13 +9,12 @@ class MainPage extends Component {
   state = {
     sideDrawerOpen: false,
     reload: false,
-
+    reloadMarkers: false,
     filterSection: '',
     filterName: '',
     venues: [],
-
+    venueResults: [],
     markers: [],
-
     ariaExpand: false
   }
 
@@ -24,6 +23,14 @@ class MainPage extends Component {
       this.setState({reload: false})
     } else {
       this.setState({reload: true})
+    }
+  }
+
+  reloadMarkers = () => {
+    if (this.state.reloadMarkers === true){
+      this.setState({reloadMarkers: false})
+    } else {
+      this.setState({reloadMarkers: true})
     }
   }
 
@@ -46,7 +53,7 @@ class MainPage extends Component {
   }
 
 
-  clearMarkersArray = () => {
+  clearMarkers = () => {
     this.state.markers.forEach(marker => {
       this.state.markers.splice(marker)
     })
@@ -54,7 +61,7 @@ class MainPage extends Component {
 
   // Adds the ability to change state of filterSection via props.
   // Works with input filter in side drawer.
-  venueTypeFilter = (input) => {
+  sectionFilter = (input) => {
     this.setState({
       filterSection: input
     })
@@ -84,7 +91,6 @@ class MainPage extends Component {
     }
   }
 
-
   // Triggers a click on the marker after clicking corrisponding name in side drawer.
   handleClick = (id) => {
     const foundMarker = this.state.markers.find(marker => marker.name === id)
@@ -92,15 +98,26 @@ class MainPage extends Component {
   }
 
   render() {
+    // if (this.state.venueResults === []) {
+    this.state.venueResults.forEach(venue => {
+      this.state.venueResults.splice(venue)
+    })
+
+    this.state.venues.forEach(venue => {
+      this.state.venueResults.push(venue)
+    })
+    // }
+
+    // console.log(this.state.markers)
+    console.log(this.state.venueResults)
+    // console.log(this.state.venues)
 
     let sideDrawer
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.venueTypeFilter}  markers={this.state.markers}  filterSection={this.state.filterSection} filterList={this.filterList} addVenues={this.addVenues} clearMarkers={this.clearMarkersArray} clearVenues={this.clearVenues} reloadState={this.reloadState} ariaExpand={this.state.ariaExpand}/>
+      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.sectionFilter}  markers={this.state.markers} addVenues={this.addVenues} clearMarkers={this.clearMarkers} clearVenues={this.clearVenues} reloadState={this.reloadState} ariaExpand={this.state.ariaExpand} venueResults={this.state.venueResults} reloadMarkers={this.reloadMarkers}/>
     }
-
-
 
     return (<div style={{
         height: '100%'
@@ -108,7 +125,7 @@ class MainPage extends Component {
       <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
       {sideDrawer}
       <main onClick={this.drawerCloseOnMapHandler}>
-        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers} clearMarkers={this.clearMarkersArray} reload={this.state.reload} clearVenues={this.clearVenues}/>
+        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers} clearMarkers={this.clearMarkers} reload={this.state.reload} clearVenues={this.clearVenues} venueResults={this.state.venueResults} reloadMarkers={this.reloadMarkers}/>
       </main>
     </div>)
   }

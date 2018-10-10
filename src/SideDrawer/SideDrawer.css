@@ -83,23 +83,11 @@ form {
 
 input[type="text"] {
   height: 34px;
-  width: 67.5%;
-  padding-left: 20px;
+  width: 98.5%;
   font-weight: bold;
   font-family: Verdana;
-  box-shadow: inset 0.5px 0 2px #000;
-  border: 2px solid black;
-}
-
-input[type="submit"] {
-  height: 38px;
-  width: 24.5%;
-  background-color: rgba(0, 125, 255, 0.75);
-  color: white;
-  border: none;
-  margin-top: 1px;
-  font-weight: bold;
-  box-shadow: inset 0.5px 0 7px #000;
+  box-shadow: 0.5px 0 7px #000;
+  border: 1px solid black;
 }
 
 input[type="text"]:hover,

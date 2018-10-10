@@ -11,14 +11,13 @@ class Map extends Component {
 
   // Loads all the map information once it changes or updates.
   componentDidUpdate(prevProps) {
-    if (prevProps.filterSection !== this.props.filterSection) {
+  if (prevProps.reload !== this.props.reload) {
       setTimeout(() => {this.getVenues(this.props.filterSection)}, 100)
+      console.log('map reloaded 1')
 
-    } else if (prevProps.reload !== this.props.reload) {
-      setTimeout(() => {this.getVenues(this.props.filterSection)}, 100)
-
-    } else if (prevProps.venues > this.props.venues) {
+    } else if (prevProps.markers !== this.props.markers) {
       this.initMap()
+      console.log('map reloaded 2')
     }
   }
 
@@ -54,8 +53,9 @@ class Map extends Component {
   // Initiates the map, sets up markers, adds info windows, and sets positions.
   // This uses Google Maps API
   initMap = () => {
-
-    this.props.clearMarkers()
+    this.props.markers.forEach( marker => {
+      this.props.markers.splice(marker)
+    })
 
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {
@@ -73,7 +73,7 @@ class Map extends Component {
     var bounds = new window.google.maps.LatLngBounds()
 
     // Sets the markers state on the MainPage to empty
-    this.props.venues.forEach(markedVenue => {
+    this.props.venueResults.forEach(markedVenue => {
 
         // Creates the content for the infowindow
         var contentString = `<div id="infoContent" tabIndex="0">
@@ -118,6 +118,7 @@ class Map extends Component {
 
     })
 
+
     map.fitBounds(bounds)
     map.panToBounds(bounds)
 
@@ -141,7 +142,7 @@ class Map extends Component {
     const scriptElement = window.document.createElement('script')
     const firstScript = window.document.getElementsByTagName('script')[0]
 
-    scriptElement.onerror = () => {Window.alert("Google Maps API failed to load data!")}
+    scriptElement.onerror = () => {window.alert("Google Maps API failed to load data!")}
 
     scriptElement.setAttribute("id", "map-script")
     scriptElement.src = src
