@@ -1,6 +1,14 @@
 # Udacity - Project 7 - Neighborhood React Maps - Set in Asheville, NC
 
-This project was created with the React framework. It is a single page Google map API app based on Asheville, NC. This app utilizes Fouraquares API for all venue data. It allows you to filter venues based on multiple topics. Some examples of topics that can be used are park, coffee, fun, etc. The idea of this app was to show a list of options based on topics for a vacation in Asheville, NC. It does not however filter based on name. It supports aria accessibility and tab navigation.
+This project was created with the React framework. It is a single page Google map API app based on Asheville, NC. This app utilizes Fouraquares API for all venue data. It allows you to filter venues based on select categories in Asheville, NC, The default category is "Top Picks".
+
+In each group of venues there is an option to filter by name. Clicking or pressing enter on a venues name in the side drawer will trigger the corresponding markers info window to open.
+
+To reset the venues after searching for a name, open the categories menu and select a category again from the list. This will update the venues again based on the category that was selected.
+
+Clicking on a marker will also trigger the info window to open.
+
+This app supports aria accessibility and tab navigation.
 
 ---
 
