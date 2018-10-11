@@ -7,6 +7,7 @@ class Map extends Component {
   // Loads all the map information once it is mounted.
   componentDidMount() {
     this.getVenues(this.props.filterSection)
+    console.log('map loaded')
   }
 
   // Loads all the map information once it changes or updates.

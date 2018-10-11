@@ -33,16 +33,12 @@ class MainPage extends Component {
 
   // Empties the venue state array
   clearVenues = () => {
-    this
-      .state
-      .venues
-      .forEach(venue => {
-        this
-          .state
-          .venues
-          .splice(venue)
+    this.state.venues.forEach(venue => {
+        this.state.venues.splice(venue)
       })
   }
+
+
 
   updateVenueResults = (newVenues) => {
     this.state.venueResults.forEach(venue => {
@@ -52,6 +48,8 @@ class MainPage extends Component {
     newVenues.forEach(venue => {
       this.state.venueResults.push(venue)
     })
+
+    console.log("Venues: ", this.state.venues)
   }
 
   // Adds the ability to push marker to markers state via props.
@@ -89,6 +87,7 @@ class MainPage extends Component {
           if (venue.name.includes(input)) {
             return venue;
           }
+          console.log("nameFilter", this.state.venues)
         })
       : this.state.venues;
       console.log("venueResults from nameFilter: ", venueResults);
@@ -119,6 +118,7 @@ class MainPage extends Component {
   render() {
     console.log("venueResults for render: ", this.state.venueResults)
     console.log("Markers for render: ", this.state.markers)
+    console.log("Venues for render: ", this.state.venues)
 
     let sideDrawer
 

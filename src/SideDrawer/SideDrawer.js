@@ -25,23 +25,16 @@ class SideDrawer extends Component {
 
       this.props.updateVenueResults(updatedVenues)
       this.props.updateMarkers(updatedVenues)
-
-      console.log("if value: ", this.props.venueResults)
     } else {
 
-      this.props.venueResults.forEach(venue => {
-        this.props.venueResults.splice(venue)
-      })
+      this.props.reloadState()
 
-      this.props.venues.forEach(venue => {
-        this.props.venueResults.push(venue)
-      })
-
-      console.log(this.props.venueResults)
+      console.log("hanldeChange else", this.props.venues)
     }
   }
 
   // handleClick = (id) => {
+
   //   let foundMarker = this.props.markers.find(marker => marker.id === id)
   //   window.google.maps.event.trigger(foundMarker, 'click')
   // }
