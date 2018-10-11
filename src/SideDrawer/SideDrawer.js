@@ -118,7 +118,6 @@ class SideDrawer extends Component {
               this.props.venueResults.splice(venue)
             })
 
-
             this.props.reloadState()
 
             this.props.filter(topic)

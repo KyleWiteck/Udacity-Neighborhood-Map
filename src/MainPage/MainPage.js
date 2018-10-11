@@ -9,7 +9,6 @@ class MainPage extends Component {
   state = {
     sideDrawerOpen: false,
     reload: false,
-    reloadMarkers: false,
     filterSection: '',
     filterName: '',
     venues: [],
@@ -26,14 +25,6 @@ class MainPage extends Component {
     }
   }
 
-  reloadMarkers = () => {
-    if (this.state.reloadMarkers === true){
-      this.setState({reloadMarkers: false})
-    } else {
-      this.setState({reloadMarkers: true})
-    }
-  }
-
   // Adds the ability to change state of venues via props.
   addVenues = (venues) => {
     this.setState({
@@ -41,6 +32,7 @@ class MainPage extends Component {
     })
   }
 
+  // Empties the venue state array
   clearVenues = () => {
     this.state.venues.forEach(venue => {
       this.state.venues.splice(venue)
@@ -91,12 +83,6 @@ class MainPage extends Component {
     }
   }
 
-  // Triggers a click on the marker after clicking corrisponding name in side drawer.
-  handleClick = (id) => {
-    const foundMarker = this.state.markers.find(marker => marker.name === id)
-    window.google.maps.event.trigger('click', foundMarker)
-  }
-
   render() {
     // if (this.state.venueResults === []) {
     this.state.venueResults.forEach(venue => {
@@ -116,7 +102,7 @@ class MainPage extends Component {
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.sectionFilter}  markers={this.state.markers} addVenues={this.addVenues} clearMarkers={this.clearMarkers} clearVenues={this.clearVenues} reloadState={this.reloadState} ariaExpand={this.state.ariaExpand} venueResults={this.state.venueResults} reloadMarkers={this.reloadMarkers}/>
+      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.sectionFilter}  markers={this.state.markers} clearMarkers={this.clearMarkers} clearVenues={this.clearVenues} reloadState={this.reloadState} ariaExpand={this.state.ariaExpand} venueResults={this.state.venueResults}/>
     }
 
     return (<div style={{
@@ -125,7 +111,7 @@ class MainPage extends Component {
       <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
       {sideDrawer}
       <main onClick={this.drawerCloseOnMapHandler}>
-        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers} clearMarkers={this.clearMarkers} reload={this.state.reload} clearVenues={this.clearVenues} venueResults={this.state.venueResults} reloadMarkers={this.reloadMarkers}/>
+        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers} clearMarkers={this.clearMarkers} reload={this.state.reload} venueResults={this.state.venueResults}/>
       </main>
     </div>)
   }

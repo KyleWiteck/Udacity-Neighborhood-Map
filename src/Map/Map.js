@@ -15,7 +15,7 @@ class Map extends Component {
       setTimeout(() => {this.getVenues(this.props.filterSection)}, 100)
       console.log('map reloaded 1')
 
-    } else if (prevProps.markers !== this.props.markers) {
+    } else if (prevProps.venueResults !== this.props.venueResults) {
       this.initMap()
       console.log('map reloaded 2')
     }
