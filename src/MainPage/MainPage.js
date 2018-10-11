@@ -44,6 +44,11 @@ class MainPage extends Component {
     this.state.markers.push(marker)
   }
 
+  updateMarkers = (updatedMarkers) =>{
+      this.setState({
+        markers: [updatedMarkers]
+      })
+  }
 
   clearMarkers = () => {
     this.state.markers.forEach(marker => {
@@ -84,6 +89,7 @@ class MainPage extends Component {
   }
 
   render() {
+    console.log(this.state.markers)
     // if (this.state.venueResults === []) {
     this.state.venueResults.forEach(venue => {
       this.state.venueResults.splice(venue)
@@ -102,7 +108,7 @@ class MainPage extends Component {
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.sectionFilter}  markers={this.state.markers} clearMarkers={this.clearMarkers} clearVenues={this.clearVenues} reloadState={this.reloadState} ariaExpand={this.state.ariaExpand} venueResults={this.state.venueResults}/>
+      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.sectionFilter}  markers={this.state.markers} clearMarkers={this.clearMarkers} clearVenues={this.clearVenues} reloadState={this.reloadState} ariaExpand={this.state.ariaExpand} venueResults={this.state.venueResults} updateMarkers={this.updateMarkers}/>
     }
 
     return (<div style={{

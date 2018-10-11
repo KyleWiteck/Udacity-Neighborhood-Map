@@ -16,19 +16,27 @@ class SideDrawer extends Component {
   }
 
   handleChange = (value) =>{
+    let venues = this.props.venueResults;
+    let  updatedVenues = venues.filter(venue => {
+      return venue.venue.name.toLowerCase().search(
+        value.toLowerCase()) !== -1
+    });
     if (value) {
-      let venues = this.props.venueResults;
-      let  updatedVenues = venues.filter(venue => {
-        return venue.venue.name.toLowerCase().search(
-          value.toLowerCase()) !== -1
-      });
-
       this.props.venueResults.forEach(venue => {
         this.props.venueResults.splice(venue)
       })
 
       updatedVenues.forEach(venue => {
         this.props.venueResults.push(venue)
+      })
+
+
+      this.props.markers.forEach(venue => {
+        this.props.markers.splice(venue)
+      })
+
+      updatedVenues.forEach(venue => {
+        this.props.markers.push(venue)
       })
 
       console.log(this.props.venueResults)
@@ -44,6 +52,7 @@ class SideDrawer extends Component {
 
       console.log(this.props.venueResults)
     }
+
   }
 
   handleClick = (id) => {
