@@ -16,30 +16,17 @@ class SideDrawer extends Component {
   }
 
   handleChange = (value) =>{
-    let venues = this.props.venueResults;
-    let  updatedVenues = venues.filter(venue => {
-      return venue.venue.name.toLowerCase().search(
-        value.toLowerCase()) !== -1
-    });
     if (value) {
-      this.props.venueResults.forEach(venue => {
-        this.props.venueResults.splice(venue)
-      })
+      let venues = this.props.venueResults;
+      let  updatedVenues = venues.filter(venue => {
+        return venue.venue.name.toLowerCase().search(
+          value.toLowerCase()) !== -1
+      });
 
-      updatedVenues.forEach(venue => {
-        this.props.venueResults.push(venue)
-      })
+      this.props.updateVenueResults(updatedVenues)
+      this.props.updateMarkers(updatedVenues)
 
-
-      this.props.markers.forEach(venue => {
-        this.props.markers.splice(venue)
-      })
-
-      updatedVenues.forEach(venue => {
-        this.props.markers.push(venue)
-      })
-
-      console.log(this.props.venueResults)
+      console.log("if value: ", this.props.venueResults)
     } else {
 
       this.props.venueResults.forEach(venue => {
@@ -52,13 +39,12 @@ class SideDrawer extends Component {
 
       console.log(this.props.venueResults)
     }
-
   }
 
-  handleClick = (id) => {
-    let foundMarker = this.props.markers.find(marker => marker.id === id)
-    window.google.maps.event.trigger(foundMarker, 'click')
-  }
+  // handleClick = (id) => {
+  //   let foundMarker = this.props.markers.find(marker => marker.id === id)
+  //   window.google.maps.event.trigger(foundMarker, 'click')
+  // }
 
   scrollToTop = () => {
     window.document.getElementById('drawer-nav').scrollTop = 0; // For Safari
@@ -166,6 +152,7 @@ class SideDrawer extends Component {
   }
 
   render() {
+    console.log("SideDrawer change: ", this.props.venueResults)
     return (
       <div id='side-drawer'>
 
@@ -190,7 +177,7 @@ class SideDrawer extends Component {
                     this.props.venueResults.map((venue, index) => {
                       return(
                       <li key={index}>
-                        <a className="drawer-name" aria-label={`${venue.venue.name} ${venue.venue.location.formattedAddress} ${venue.venue.categories[0].name}`  } onClick={() => {this.handleClick(venue.venue.id)}} onKeyPress={() => {this.handleClick(venue.venue.id)}} tabIndex="0">
+                        <a className="drawer-name" aria-label={`${venue.venue.name} ${venue.venue.location.formattedAddress} ${venue.venue.categories[0].name}`  } onClick={() => {this.props.handleClick(venue.venue.id)}} onKeyPress={() => {this.props.handleClick(venue.venue.id)}} tabIndex="0">
                           {venue.venue.name}
                         </a>
                       </li>)

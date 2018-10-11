@@ -18,7 +18,7 @@ class MainPage extends Component {
   }
 
   reloadState = () => {
-    if (this.state.reload === true){
+    if (this.state.reload === true) {
       this.setState({reload: false})
     } else {
       this.setState({reload: true})
@@ -27,49 +27,73 @@ class MainPage extends Component {
 
   // Adds the ability to change state of venues via props.
   addVenues = (venues) => {
-    this.setState({
-      venues: venues
-    })
+    this.setState({venues: venues})
+    this.nameFilter(this.state.filterName);
   }
 
   // Empties the venue state array
   clearVenues = () => {
-    this.state.venues.forEach(venue => {
-      this.state.venues.splice(venue)
+    this
+      .state
+      .venues
+      .forEach(venue => {
+        this
+          .state
+          .venues
+          .splice(venue)
+      })
+  }
+
+  updateVenueResults = (newVenues) => {
+    this.state.venueResults.forEach(venue => {
+      this.state.venueResults.splice(venue)
+    })
+
+    newVenues.forEach(venue => {
+      this.state.venueResults.push(venue)
     })
   }
 
   // Adds the ability to push marker to markers state via props.
   addMarker = (marker) => {
-    this.state.markers.push(marker)
-  }
-
-  updateMarkers = (updatedMarkers) =>{
-      this.setState({
-        markers: [updatedMarkers]
-      })
+    this
+      .state
+      .markers
+      .push(marker)
   }
 
   clearMarkers = () => {
     this.state.markers.forEach(marker => {
-      this.state.markers.splice(marker)
-    })
+        this.state.markers.splice(marker)
+      })
   }
 
-  // Adds the ability to change state of filterSection via props.
-  // Works with input filter in side drawer.
-  sectionFilter = (input) => {
-    this.setState({
-      filterSection: input
+  updateMarkers = (newVenues) => {
+    this.state.markers.forEach(marker => {
+      this.state.markers.splice(marker)
     })
+
+    this.setState({markers: newVenues})
+  }
+
+  // Adds the ability to change state of filterSection via props. Works with input
+  // filter in side drawer.
+  sectionFilter = (input) => {
+    console.log("sectionFilter: ", input);
+    this.setState({filterSection: input})
   }
 
   nameFilter = (input) => {
-    this.setState({
-      filterName: input
-    })
+    let venueResults = input !== ""
+      ? this.state.venues.filter(venue => {
+          if (venue.name.includes(input)) {
+            return venue;
+          }
+        })
+      : this.state.venues;
+      console.log("venueResults from nameFilter: ", venueResults);
+    this.setState({filterName: input, venueResults})
   }
-
 
   // Opens and closes the side drawer when clicking hamburger icon.
   drawerToggleButtonHandler = () => {
@@ -83,43 +107,58 @@ class MainPage extends Component {
 
   drawerCloseOnMapHandler = () => {
     if (this.state.sideDrawerOpen === true) {
-      this.setState({sideDrawerOpen: false,
-      ariaExpand: false})
+      this.setState({sideDrawerOpen: false, ariaExpand: false})
     }
   }
 
+  handleClick = (id) => {
+    let foundMarker = this.state.markers.find(marker => marker.id === id)
+    window.google.maps.event.trigger(foundMarker, 'click')
+  }
+
   render() {
-    console.log(this.state.markers)
-    // if (this.state.venueResults === []) {
-    this.state.venueResults.forEach(venue => {
-      this.state.venueResults.splice(venue)
-    })
-
-    this.state.venues.forEach(venue => {
-      this.state.venueResults.push(venue)
-    })
-    // }
-
-    // console.log(this.state.markers)
-    console.log(this.state.venueResults)
-    // console.log(this.state.venues)
+    console.log("venueResults for render: ", this.state.venueResults)
+    console.log("Markers for render: ", this.state.markers)
 
     let sideDrawer
 
     // Adds and removes side drawer when hamburger icon is clicked.
     if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer venues={this.state.venues}  filter={this.sectionFilter}  markers={this.state.markers} clearMarkers={this.clearMarkers} clearVenues={this.clearVenues} reloadState={this.reloadState} ariaExpand={this.state.ariaExpand} venueResults={this.state.venueResults} updateMarkers={this.updateMarkers}/>
+      sideDrawer = <SideDrawer
+        venues={this.state.venues}
+        filter={this.sectionFilter}
+        markers={this.state.markers}
+        clearMarkers={this.clearMarkers}
+        clearVenues={this.clearVenues}
+        reloadState={this.reloadState}
+        ariaExpand={this.state.ariaExpand}
+        venueResults={this.state.venueResults}
+        updateVenueResults={this.updateVenueResults}
+        updateMarkers={this.updateMarkers}
+        handleClick={this.handleClick}/>
     }
 
-    return (<div style={{
+    return (
+      <div style={{
         height: '100%'
       }}>
-      <Header click={this.drawerToggleButtonHandler} ariaExpand={this.state.ariaExpand}/>
-      {sideDrawer}
-      <main onClick={this.drawerCloseOnMapHandler}>
-        <Map tabIndex='-1' addVenues={this.addVenues} venues={this.state.venues} filterSection={this.state.filterSection} addMarker={this.addMarker} markers={this.state.markers} clearMarkers={this.clearMarkers} reload={this.state.reload} venueResults={this.state.venueResults}/>
-      </main>
-    </div>)
+        <Header
+          click={this.drawerToggleButtonHandler}
+          ariaExpand={this.state.ariaExpand}/> {sideDrawer}
+        <main onClick={this.drawerCloseOnMapHandler}>
+          <Map
+            tabIndex='-1'
+            addVenues={this.addVenues}
+            venues={this.state.venues}
+            filterSection={this.state.filterSection}
+            addMarker={this.addMarker}
+            markers={this.state.markers}
+            clearMarkers={this.clearMarkers}
+            reload={this.state.reload}
+            venueResults={this.state.venueResults}/>
+        </main>
+      </div>
+    )
   }
 }
 
